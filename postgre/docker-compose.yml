@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+    db:
+        container_name: postgres
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_DB: postgres
+            POSTGRES_USER: root
+            POSTGRES_PASSWORD: Qq1234567
+        volumes:
+            - dbdata:/var/lib/postgresql/data
+        ports:
+          - 5432:5432
+    pgAdmin:
+        container_name: pgadmin
+        image: biarms/pgadmin4
+        restart: always
+        environment:
+            PGADMIN_DEFAULT_EMAIL: iseletkov@gmail.com
+            PGADMIN_DEFAULT_PASSWORD: Qq1234567
+#            PGADMIN_LISTEN_PORT: 80
+        ports:
+            - 50000:5050
+        volumes:
+            - admindata:/pgadmin
+        depends_on:
+            - db
+        links:
+            - "db:pgsql_server"
+        tty: true
+        
+volumes:
+    dbdata:
+    admindata:
